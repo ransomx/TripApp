@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/basic.xhtml">
+
+            <ui:define name="left">
+
+            </ui:define>
+
+            <ui:define name="content">
+                <h1>Nový zájezd</h1>
+                <f:event type="preRenderView" listener="#{login.checkPermissions}"/>
+
+                <table>
+                    <tr>
+                        <td>
+                            <h:form id="termForm">
+                                <h:panelGrid>
+                                    Název 
+                                    <h:panelGroup><p:inputText id="name" value="#{newTerm.name}"  required="true"/>
+                                        <h:message id="nameVal" for="name" style="color:red"/></h:panelGroup>
+                                    Místo 
+                                    <h:panelGroup><p:inputText id="placeName" value="#{newTerm.placeName}"  required="true"/>
+                                        <h:message id="placeNameVal" for="placeName" style="color:red"/></h:panelGroup>
+                                    <h3>Adresa</h3>
+                                    Ulice 
+                                    <h:panelGroup><p:inputText id="street" size="35" value="#{newTerm.street}" required="true"/>
+                                        <h:message id="streetVal" for="street" style="color:red"/></h:panelGroup>
+                                    Číslo domu 
+                                    <h:panelGroup><p:inputText id="house" size="35" value="#{newTerm.house}" required="true"/>
+                                        <h:message id="houseVal" for="house" style="color:red"/></h:panelGroup>
+                                    Město 
+                                    <h:panelGroup><p:inputText id="city" size="35" value="#{newTerm.city}" required="true"/>
+                                        <h:message id="cityVal" for="city" style="color:red"/></h:panelGroup>
+                                    PSČ 
+                                    <h:panelGroup><p:inputText id="postcode" size="35" value="#{newTerm.postcode}" required="true"/>
+                                        <h:message id="postVal" for="postcode" style="color:red"/></h:panelGroup>
+                                    Datum
+                                    <p:calendar value="#{newTerm.date}" pattern="MM/dd/yyyy" />
+                                     
+                                </h:panelGrid> 
+                                <p:commandButton id="termBtn" value="Vytvořit termín" action="#{newTerm.createTerm()}"/>
+                                <p:commandButton id="backBtn" immediate="true" value="Zpět" action="/restricted/userhome"/>
+                                <p:messages id="msgs" for="termBtn" />
+                            </h:form>
+                        </td>
+                        <td>
+                            <h:form id="catForm">
+                                <p:selectOneMenu id="typeSelector" value="#{newTerm.selectedCategory}" converter="entityConverter">
+                                    <f:selectItem itemLabel="Zvolte kategorii" />
+                                    <f:selectItems value="#{newCategory.categoryList}" var="curTerm"
+                                                   itemLabel="#{curTerm.name}"
+                                                   itemValue="#{curTerm}"/>
+                                    <p:ajax event="change" update="@all" />
+                                </p:selectOneMenu>
+
+
+                                <h3>Nová kategorie</h3>
+                                <h:panelGrid>
+                                    Název
+                                    <p:inputText value="#{newCategory.name}" />
+                                    Doba trvání
+                                    <p:inputText value="#{newCategory.duration}" />
+                                    Popis
+                                    <p:inputTextarea value="#{newCategory.desc}"/>
+                                </h:panelGrid>
+
+
+                                <p:commandButton value="Přidat kategorii" action="#{newCategory.createCategory()}" update=":catForm"/>
+                            </h:form>
+                        </td>
+                    </tr>
+                </table>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

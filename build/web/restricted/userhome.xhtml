@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/basic.xhtml">
+
+            <ui:define name="left">
+                <f:event type="preRenderView" listener="#{login.checkPermissions}"/>
+
+                <h:form id="sideForm">
+                    <h:panelGrid>
+                        <h:outputText value="Typ zájezdu" />
+
+                        <p:selectOneMenu id="typeSelector" value="#{category.selectedType}" converter="entityConverter">
+                            <f:selectItem itemLabel="Vyberte zájezd" />
+                            <f:selectItems value="#{userpage.termList}" var="curTerm"
+                                           itemLabel="#{curTerm.name}"
+                                           itemValue="#{curTerm}"/>
+                            <p:ajax event="change" update="@all" />
+                        </p:selectOneMenu>
+
+                        <h:form id="rollout">
+                            <h:dataTable border="0" value="#{category.termList}" var="item">
+                                <p:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="Zájezdy"/>
+                                    </f:facet> 
+                                    <p:commandLink  value="#{item.name}" action="#{term.setSelectedTerm(item)}"
+                                                    ajax="true" update=":mainForm"/>
+                                </p:column>
+                            </h:dataTable>
+                        </h:form>
+
+                        <c:choose>
+                            <c:when test="#{userpage.coordinator}">
+                                <h:commandButton value="Nový termín" action="/restricted/newTerm"/>
+                            </c:when>
+                        </c:choose>
+
+                    </h:panelGrid>
+                </h:form>
+
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="mainForm">
+
+                    <c:choose>
+                        <c:when test="#{term.selected}">
+                            <h1>Vybraný termín: #{term.selectedTerm.name} </h1>
+                            <h:panelGrid>
+                                <h:outputText value="Název: #{term.selectedTerm.name}"/>
+                                <h:outputText value="Datum: #{term.selectedTerm.date}"/>
+                                <h:outputText value="Typ: #{term.selectedTerm.typeid.name}"/>
+                                <h:outputText value="Místo: #{term.selectedTerm.placeid.name}"/>
+                                <h:outputText value="Adresa: #{term.selectedTerm.placeid.addressid.city}, 
+                                              #{term.selectedTerm.placeid.addressid.street},
+                                              #{term.selectedTerm.placeid.addressid.houseNumber},
+                                              #{term.selectedTerm.placeid.addressid.postcode}"/>
+                                <h:outputText value="Koordinátor: #{term.selectedTerm.coordinatorId.name}"/>
+                                <h:outputText value="Společnost: #{term.selectedTerm.coordinatorId.companyid.name}"/>
+
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <h:panelGrid>
+                                                <h:dataTable border="0" value="#{term.selectedTerm.personList}" var="person">
+                                                    <p:column >
+                                                        <f:facet name="header">
+                                                            <h:outputText value="Účastníci"/>
+                                                        </f:facet> 
+                                                        <h:outputText value="#{person.name} #{person.surname}"/>
+                                                    </p:column>
+                                                </h:dataTable>
+                                            </h:panelGrid>
+                                        </td>
+                                        <td>
+                                            <h:panelGrid>
+                                                <h:dataTable border="1" value="#{term.selectedTerm.noteList}" var="note">
+                                                    <p:column >
+                                                        <f:facet name="header">
+                                                            <h:outputText value="Poznámky"/>
+                                                        </f:facet> 
+                                                        <h:outputText value="#{note.content}"/>
+                                                    </p:column>
+                                                </h:dataTable>
+                                            </h:panelGrid>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <c:choose>
+                                    <c:when test="#{userpage.coordinator}">
+                                        <p:inputTextarea id="note" value="#{term.noteText}"/>
+                                        <p:commandButton id="noteBtn" value="Přidat poznámku" action="#{term.addNote}" update=":mainForm" />
+                                        
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p:commandButton id="signIn" value="Přidat se" action="#{term.signUp()}" update=":mainForm"/>
+                                        <p:commandButton id="signOut" value="Odepsat se" action="#{term.signOut()}" update=":mainForm"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </h:panelGrid>
+                        </c:when>
+                    </c:choose> 
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

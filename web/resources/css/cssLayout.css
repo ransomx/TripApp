@@ -1,0 +1,91 @@
+
+#top {
+    position: relative;
+    background-color: #036fab;
+    color: white;
+    padding: 5px;
+    margin: 0px 0px 10px 0px;
+}
+
+#bottom {
+    position: relative;
+    background-color: #c2dfef;
+    padding: 5px;
+    margin: 10px 0px 0px 0px;
+}
+
+#left {
+    float: left;
+    background-color: #aa1a11;
+    position: relative;
+    color: white;
+    width: 200px;
+    float: left;
+    min-height: 400px;
+    height: max-content;
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+#content{
+    position: relative;
+    background-color: #FFFFFF;
+    margin-left: 220px;
+    margin-right: auto;
+    width: 600px;
+    min-height: 400px;
+    height: max-content;
+}
+
+#top {
+    position: relative;
+    background-color: rgb(55,55,55);
+    color: white;
+    padding: 5px;
+    margin: 0px 0px 10px 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#bottom {
+    position: relative;
+    background-color: rgb(55,55,55);
+    color: white;
+    padding: 5px;
+    margin: 20px 0px 0px 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.center_content {
+    position: relative;
+    background-color: #dddddd;
+    padding: 5px;
+    min-height: 400px;
+}
+
+.left_content {
+    background-color: #dddddd;
+    padding: 5px;
+    margin-left: 170px;
+}
+
+.right_content {
+    background-color: #dddddd;
+    padding: 5px;
+    margin: 0px 170px 0px 170px;
+}
+
+#top a:link, #top a:visited {
+  color: white;
+  font-weight : bold;
+  text-decoration: none;
+}
+
+#top a:link:hover, #top a:visited:hover  {
+  color: black;
+  font-weight : bold;
+  text-decoration : underline;
+}
+
+

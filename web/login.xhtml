@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/templates/basic.xhtml">
+
+            <ui:define name="left">
+
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="login">
+                    <h2>Přihlaste se</h2>
+                    <f:view>
+                        <h:form>
+                            <h:panelGrid>
+                                Email 
+                                <h:panelGroup><h:inputText id="email" value="#{login.email}" size="50" tabindex="1"  required="true"                     requiredMessage="Zadejte email">
+                                    </h:inputText>
+                                    <h:message id="m2b" for="email" style="color:red"/>
+                                </h:panelGroup>
+                                Heslo 
+                                <h:panelGroup>
+                                    <h:inputSecret id="pass" value="#{login.password}" size="50" required="true" requiredMessage="Zadejte heslo"/>
+                                    <h:message id="m2a" for="pass" style="color:red"/>
+                                </h:panelGroup>    
+                                <h:commandButton id="loginBtn" value="Přihlásit se" action="#{login.login()}" />
+                                <h:message id="m2c" for="loginBtn" style="color:red"/>
+                                <h:messages id="mesg" for="loginBtn"/>
+                            </h:panelGrid>
+                        </h:form>
+                    </f:view>
+                </div>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>
